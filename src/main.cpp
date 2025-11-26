@@ -1,7 +1,19 @@
 #include <iostream>
 
-int main() {
-    std::cout << "Hello\n";
+#include "TSP.hpp"
+#include "instance.hpp"
+#include "solution.hpp"
+
+int main(int argc, char **argv) {
+    Instance instance(argc, argv[1]);
+    instance.read();
+
+    TSP tsp(instance);
+
+    Solution s = tsp.randomized(0.3);
+
+    std::cout << "Objective: " << s.objective << '\n';
+    s.print_sequence();
 
     return 0;
 }
