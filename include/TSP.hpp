@@ -3,15 +3,18 @@
 
 #include <instance.hpp>
 #include <solution.hpp>
+#include <random>
 
 class TSP {
     private:
         Instance m_instance;
 
+        std::mt19937_64 m_rng;
+
     public:
         enum class Neighborhood : uint8_t { Swap };
 
-        TSP(Instance &instance);
+        TSP(Instance &instance, uint64_t seed = 0);
         
         // Constructive heuristics
         Solution randomized(double alpha);

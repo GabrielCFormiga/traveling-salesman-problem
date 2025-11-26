@@ -11,14 +11,16 @@ Solution TSP::randomized(double alpha) {
 
     size_t x, y, z;
 
-    x = rand() % (m_instance.get_dimension() - 1) + 2;    
+    std::uniform_int_distribution<size_t> distrib(2, m_instance.get_dimension());
+    
+    x = distrib(m_rng);
     
     do {
-        y = rand() % (m_instance.get_dimension() - 1) + 2;    
+        y = distrib(m_rng);
     } while (y == x);
     
     do {
-        z = rand() % (m_instance.get_dimension() - 1) + 2;    
+        z = distrib(m_rng);
     } while (z == x || z == y);
     
     solution.sequence.push_back(x);
@@ -53,9 +55,12 @@ Solution TSP::randomized(double alpha) {
 
         sort(insertions.begin(), insertions.end());
 
-        size_t pos = rand() % (size_t(floor(alpha * insertions.size())) + 1);
-        size_t k = insertions[pos].second.first;
-        size_t i = insertions[pos].second.second;
+        size_t limit = static_cast<size_t>(floor(alpha * insertions.size())) + 1;
+        std::uniform_int_distribution<size_t> distrib(0, limit - 1);
+        size_t ind = distrib(m_rng);
+        
+        size_t k = insertions[ind].second.first;
+        size_t i = insertions[ind].second.second;
         solution.sequence.insert(solution.sequence.begin() + i + 1, k);
         used[k] = true;
     }

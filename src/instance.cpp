@@ -9,14 +9,15 @@ distMatrix(NULL){
 
 	if ( qtParam < 2 )  {
 		std::cout << "Missing parameters\n";
-		std::cout << " ./exeLaRP [Instance]"  << std::endl;
+		std::cout << " ./program [Instance] [optional: seed max_iter max_ils_iter alpha]"  << std::endl;
 		exit( 1 );        
-	}
+	} 
 
-	if ( qtParam > 2 )    {
+
+	if ( qtParam > 6 ) {
 		std::cout << "Too many parameters\n";
-		std::cout << " ./exeLaRP [Instance]"  << std::endl;
-		exit( 1 );
+		std::cout << " ./program [Instance] [optional: seed max_iter max_ils_iter alpha]"  << std::endl;
+		exit( 1 );        
 	}
 
 	m_name = instance;

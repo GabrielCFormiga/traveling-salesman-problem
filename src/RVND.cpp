@@ -9,7 +9,8 @@ void TSP::RVND(Solution &solution) {
     size_t neighborhood;
 
     while (!neighborhoods.empty()) {
-        neighborhood = rand() % neighborhoods.size();
+        std::uniform_int_distribution<size_t> distrib(0, neighborhoods.size() - 1);
+        neighborhood = distrib(m_rng);
 
         switch (neighborhoods[neighborhood]) {
             case TSP::Neighborhood::Swap:
