@@ -9,14 +9,23 @@ class TSP {
         Instance m_instance;
 
     public:
+        enum class Neighborhood : uint8_t { Swap };
+
         TSP(Instance &instance);
         
         // Constructive heuristics
         Solution randomized(double alpha);
 
         // Local Search Procedures
-        void RNVD(Solution &solution);
+        void RVND(Solution &solution);
 
+        // Neighborhoods
+        bool best_improvement_swap(Solution &solution);
+        // bool best_improvement_2_opt(Solution &solution);
+        // bool best_improvement_or_opt(Solution &solution, size_t segment_size);
+
+        // Methaheuristics
+        Solution GILS_RVND(const size_t max_iterations, const size_t max_ils_iterations, double alpha);
 };
 
 #endif

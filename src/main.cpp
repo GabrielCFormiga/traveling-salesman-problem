@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 
     TSP tsp(instance);
 
-    Solution s = tsp.randomized(0.3);
+    Solution s = tsp.GILS_RVND(10, 100, 0.3);
 
     std::cout << "Objective: " << s.objective << '\n';
     s.print_sequence();
