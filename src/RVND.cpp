@@ -4,9 +4,9 @@ void TSP::RVND(Solution &solution) {
     std::vector<TSP::Neighborhood> neighborhoods = {
         TSP::Neighborhood::SWAP,
         TSP::Neighborhood::_2_OPT,
-        TSP::Neighborhood::REINSERTION, 
-        TSP::Neighborhood::OR_OPT_2, 
-        TSP::Neighborhood::OR_OPT_3
+        // TSP::Neighborhood::REINSERTION, 
+        // TSP::Neighborhood::OR_OPT_2, 
+        // TSP::Neighborhood::OR_OPT_3
     };
 
     bool improved;
@@ -38,9 +38,9 @@ void TSP::RVND(Solution &solution) {
             neighborhoods = {
                 TSP::Neighborhood::SWAP,
                 TSP::Neighborhood::_2_OPT,
-                TSP::Neighborhood::REINSERTION,
-                TSP::Neighborhood::OR_OPT_2,
-                TSP::Neighborhood::OR_OPT_3
+                // TSP::Neighborhood::REINSERTION,
+                // TSP::Neighborhood::OR_OPT_2,
+                // TSP::Neighborhood::OR_OPT_3
             };
         } else {
             neighborhoods.erase(neighborhoods.begin() + neighborhood);

@@ -74,4 +74,6 @@ void TSP::double_bridge(Solution &solution) {
         solution.sequence[m_instance.get_dimension() - i] = temp.top();
         temp.pop();
     }
+
+    assert(solution.test_feasibility(m_instance));
 }

@@ -13,16 +13,22 @@ void Solution::print_sequence() const {
     }
 }
 
-void Solution::update_objective(const Instance &data) {
-    // poderia atualizar direto objective
-    // mas vou criar um new para entar usar um modo debug depois
+bool Solution::test_feasibility(const Instance &instance) {
+    if (sequence.size() != instance.get_dimension() + 1) {
+        return false;
+    }
+
+    if (sequence[0] != 1 || sequence[sequence.size() - 1] != 1) return false;
 
     double new_objective = 0;
+    std::vector<bool> used(instance.get_dimension() + 1, false);
+
     for (size_t i = 0; i < sequence.size() - 1; i++) {
-        new_objective += data.get_distance(sequence[i], sequence[i + 1]);
+        new_objective += instance.get_distance(sequence[i], sequence[i + 1]);
+        if (sequence[i] < 1 || sequence[i] > instance.get_dimension()) return false;
+        if (used[sequence[i]] == true) return false;
+        used[sequence[i]] = true;
     }
     
-    // queria usar asserts no modo debug
-    // testar a viabilidade aqui?
-    objective = new_objective;
+    return objective == new_objective;
 }

@@ -4,6 +4,9 @@
 #include <instance.hpp>
 #include <solution.hpp>
 #include <random>
+#include <cassert>
+
+#define EPS 0.001
 
 class TSP {
     private:

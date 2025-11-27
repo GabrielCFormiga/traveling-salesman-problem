@@ -28,30 +28,29 @@ Solution TSP::randomized(double alpha) {
     solution.sequence.push_back(z);
     solution.sequence.push_back(1);
 
-    std::vector<bool> used(m_instance.get_dimension() + 1, false);
-    used[1] = true;
-    used[x] = true;
-    used[y] = true;
-    used[z] = true;
+    std::vector<size_t> candidates;
+
+    for (size_t i = 2; i <= m_instance.get_dimension(); ++i) {
+        if (i != x && i != y && i != z) {
+            candidates.push_back(i);
+        }
+    }
+
+    solution.objective += m_instance.get_distance(1, x) + m_instance.get_distance(x, y) + m_instance.get_distance(y, z) + m_instance.get_distance(z, 1);
 
     // 2) Insert the remaining nodes using a randomized insertion heuristic
-    std::vector<std::pair<double, std::pair<size_t, size_t>>> insertions; // {cost, {k, i}}
+    std::vector<std::pair<std::pair<double, size_t>, std::pair<size_t, size_t>>> insertions; // {{cost, j}, {k, i}}
 
-    while (true) {
+    while (!candidates.empty()) {
         insertions.clear();
 
-        for (size_t k = 2; k <= m_instance.get_dimension(); k++) {
-            if (used[k]) continue;
-
+        for (size_t j = 0; j < candidates.size(); ++j) {
             for (size_t i = 0; i < solution.sequence.size() - 1; i++) {
-                double insertion_cost = m_instance.get_distance(solution.sequence[i], k) +
-                                       m_instance.get_distance(k, solution.sequence[i + 1]) -
-                                       m_instance.get_distance(solution.sequence[i], solution.sequence[i + 1]);
-                insertions.push_back({insertion_cost, {k, i}});
+                size_t k = candidates[j];
+                double insertion_cost = m_instance.get_distance(solution.sequence[i], k) + m_instance.get_distance(k, solution.sequence[i + 1]) - m_instance.get_distance(solution.sequence[i], solution.sequence[i + 1]);
+                insertions.push_back({{insertion_cost, j}, {k, i}});
             } 
         }
-
-        if (insertions.empty()) break;
 
         sort(insertions.begin(), insertions.end());
 
@@ -59,12 +58,15 @@ Solution TSP::randomized(double alpha) {
         std::uniform_int_distribution<size_t> distrib(0, limit - 1);
         size_t ind = distrib(m_rng);
         
+        solution.objective += insertions[ind].first.first;
         size_t k = insertions[ind].second.first;
         size_t i = insertions[ind].second.second;
         solution.sequence.insert(solution.sequence.begin() + i + 1, k);
-        used[k] = true;
+        std::swap(candidates[insertions[ind].first.second], candidates[candidates.size() - 1]);
+        candidates.pop_back();
     }
 
-    solution.update_objective(m_instance);
+    assert(solution.test_feasibility(m_instance));
+    
     return solution;
 }

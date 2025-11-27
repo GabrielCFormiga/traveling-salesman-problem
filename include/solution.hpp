@@ -13,7 +13,7 @@ struct Solution {
     Solution() = default;
     Solution(const Instance &instance);
 
-    void update_objective(const Instance &data);
+    bool test_feasibility(const Instance &instance);
   
     void print_sequence() const;
 };
