@@ -2,7 +2,8 @@
 
 void TSP::RVND(Solution &solution) {
     std::vector<TSP::Neighborhood> neighborhoods = {
-        TSP::Neighborhood::Swap
+        TSP::Neighborhood::Swap,
+        TSP::Neighborhood::_2_OPT
     };
 
     bool improved;
@@ -16,11 +17,15 @@ void TSP::RVND(Solution &solution) {
             case TSP::Neighborhood::Swap:
                 improved = best_improvement_swap(solution);
                 break;
+            case TSP::Neighborhood::_2_OPT:
+                improved = best_improvement_2_opt(solution);
+                break;
         }
 
         if (improved) {
             neighborhoods = {
-                TSP::Neighborhood::Swap
+                TSP::Neighborhood::Swap,
+                TSP::Neighborhood::_2_OPT
             };
         } else {
             neighborhoods.erase(neighborhoods.begin() + neighborhood);

@@ -12,7 +12,7 @@ class TSP {
         std::mt19937_64 m_rng;
 
     public:
-        enum class Neighborhood : uint8_t { Swap };
+        enum class Neighborhood : uint8_t { Swap , _2_OPT };
 
         TSP(Instance &instance, uint64_t seed = 0);
         
@@ -24,7 +24,7 @@ class TSP {
 
         // Neighborhoods
         bool best_improvement_swap(Solution &solution);
-        // bool best_improvement_2_opt(Solution &solution);
+        bool best_improvement_2_opt(Solution &solution);
         // bool best_improvement_or_opt(Solution &solution, size_t segment_size);
 
         // Methaheuristics
