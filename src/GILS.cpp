@@ -30,7 +30,8 @@ Solution TSP::GILS_RVND(const size_t max_iterations, const size_t max_ils_iterat
                 global_best = local_best;
             }
 
-            s = local_best; // Placeholder for s = perturbation(s);
+            s = local_best;
+            double_bridge(s);
             ++ils_iterations;
         }
     }

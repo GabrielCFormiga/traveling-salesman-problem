@@ -6,7 +6,7 @@
 #include "instance.hpp"
 
 struct Solution {
-    std::vector<int> sequence;
+    std::vector<size_t> sequence;
   
     double objective;
 

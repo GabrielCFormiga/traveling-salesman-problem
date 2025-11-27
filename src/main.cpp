@@ -12,8 +12,8 @@ int main(int argc, char **argv) {
         std::cerr << "Usage: " << argv[0] << " <instance_file> [seed] [max_iterations] [max_ils_iterations] [alpha]" << '\n';
         std::cerr << "  instance_file: TSP instance file path" << '\n';
         std::cerr << "  seed: Random seed (default: 0 = use time-based seed)" << '\n';
-        std::cerr << "  max_iterations: GRASP iterations (default: 10)" << '\n';
-        std::cerr << "  max_ils_iterations: ILS iterations (default: 100)" << '\n';
+        std::cerr << "  max_iterations: GRASP iterations (default: 50)" << '\n';
+        std::cerr << "  max_ils_iterations: ILS iterations (default: (|V| >= 150) ? |V|/2 : |V|)" << '\n';
         std::cerr << "  alpha: GRASP alpha parameter (default: 0.3)" << '\n';
         return 1;
     }
@@ -24,8 +24,8 @@ int main(int argc, char **argv) {
 
     // Argparse
     uint64_t seed = (argc > 2) ? std::stoull(argv[2]) : 0;
-    size_t max_iterations = (argc > 3) ? std::stoull(argv[3]) : 10;
-    size_t max_ils_iterations = (argc > 4) ? std::stoull(argv[4]) : 100;
+    size_t max_iterations = (argc > 3) ? std::stoull(argv[3]) : 50;
+    size_t max_ils_iterations = (argc > 4) ? std::stoull(argv[4]) : (instance.get_dimension() >= 150 ? instance.get_dimension() / 2 : instance.get_dimension());
     double alpha = (argc > 5) ? std::stod(argv[5]) : 0.3;
 
     // Display configuration

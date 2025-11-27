@@ -29,6 +29,9 @@ class TSP {
 
         // Methaheuristics
         Solution GILS_RVND(const size_t max_iterations, const size_t max_ils_iterations, double alpha);
+
+        // Perturbations
+        void double_bridge(Solution &solution);  
 };
 
 #endif

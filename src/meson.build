@@ -7,6 +7,7 @@ sources = files(
   'RVND.cpp',
   'GILS.cpp',
   'neighborhood.cpp',
+  'perturbation.cpp',
 )
 
 incdir = include_directories('../include')

@@ -2,10 +2,7 @@
 
 
 //Inicializador
-Instance::Instance( int qtParam, char * instance ):
-xCoord(NULL),
-yCoord(NULL),
-distMatrix(NULL){
+Instance::Instance(int qtParam, char * instance) : distMatrix(NULL), xCoord(NULL), yCoord(NULL) {
 
 	if ( qtParam < 2 )  {
 		std::cout << "Missing parameters\n";
@@ -58,7 +55,7 @@ void Instance::read(){
 	// Alocar matriz 2D
 	distMatrix = std::shared_ptr<double*[]>(new double *[ m_dimension ]); //memoria dinâmica (matrix 2D)
 
-	for ( int i = 0; i < m_dimension; i++ ) {
+	for ( size_t i = 0; i < m_dimension; i++ ) {
 		distMatrix[i] = new double [ m_dimension ];
 	}
 
@@ -83,8 +80,8 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int i = 0; i < m_dimension; i++ ) {
-				for ( int j = 0; j < m_dimension; j++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
+				for ( size_t j = 0; j < m_dimension; j++ ) {
 					inTSP >> distMatrix[i][j];
 					if (i == j){
 						distMatrix[i][j] = INFINITE;
@@ -100,14 +97,14 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int i = 0; i < m_dimension; i++ ) {
-				for ( int j = i + 1; j < m_dimension; j++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
+				for ( size_t j = i + 1; j < m_dimension; j++ ) {
 					inTSP >> distMatrix[i][j];
 					distMatrix[j][i] = distMatrix[i][j];
 				}
 			}
 
-			for ( int i = 0; i < m_dimension; i++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
 				//                distMatrix[i][i] = 0;
 				distMatrix[i][i] = INFINITE;
 			}
@@ -120,14 +117,14 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int i = 1; i < m_dimension; i++ ) {
-				for ( int j = 0; j < i; j++ ) {
+			for ( size_t i = 1; i < m_dimension; i++ ) {
+				for ( size_t j = 0; j < i; j++ ) {
 					inTSP >> distMatrix[i][j];
 					distMatrix[j][i] = distMatrix[i][j];
 				}
 			}
 
-			for ( int i = 0; i < m_dimension; i++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
 				//                distMatrix[i][i] = 0;
 				distMatrix[i][i] = INFINITE;
 			}
@@ -140,8 +137,8 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int i = 0; i < m_dimension; i++ ) {
-				for ( int j = i; j < m_dimension; j++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
+				for ( size_t j = i; j < m_dimension; j++ ) {
 					inTSP >> distMatrix[i][j];
 					distMatrix[j][i] = distMatrix[i][j];
 
@@ -159,8 +156,8 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int i = 0; i < m_dimension; i++ ) {
-				for ( int j = 0; j <= i; j++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
+				for ( size_t j = 0; j <= i; j++ ) {
 					inTSP >> distMatrix[i][j];
 					distMatrix[j][i] = distMatrix[i][j];
 
@@ -178,14 +175,14 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int j = 1; j < m_dimension; j++ ) {
-				for ( int i = 0; i < j; i++ ) {
+			for ( size_t j = 1; j < m_dimension; j++ ) {
+				for ( size_t i = 0; i < j; i++ ) {
 					inTSP >> distMatrix[i][j];
 					distMatrix[j][i] = distMatrix[i][j];
 				}
 			}
 
-			for ( int i = 0; i < m_dimension; i++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
 				//                distMatrix[i][i] = 0;
 				distMatrix[i][i] = INFINITE;
 			}
@@ -199,14 +196,14 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int j = 0; j < m_dimension; j++ ) {
-				for ( int i = j+1; i < m_dimension; i++ ) {
+			for ( size_t j = 0; j < m_dimension; j++ ) {
+				for ( size_t i = j+1; i < m_dimension; i++ ) {
 					inTSP >> distMatrix[i][j];
 					distMatrix[j][i] = distMatrix[i][j];
 				}
 			}
 
-			for ( int i = 0; i < m_dimension; i++ ) {
+			for ( size_t i = 0; i < m_dimension; i++ ) {
 				//                distMatrix[i][i] = 0;
 				distMatrix[i][i] = INFINITE;
 			}
@@ -220,8 +217,8 @@ void Instance::read(){
 			}
 
 			// Preencher Matriz Distancia
-			for ( int j = 0; j < m_dimension; j++ ) {
-				for ( int i = 0; i <= j; i++ ) {
+			for ( size_t j = 0; j < m_dimension; j++ ) {
+				for ( size_t i = 0; i <= j; i++ ) {
 					inTSP >> distMatrix[i][j];
 					distMatrix[j][i] = distMatrix[i][j];
 					if (i == j){
@@ -237,17 +234,17 @@ void Instance::read(){
 				inTSP >> file;
 			}
 
-			// Preencher Matriz Distancia
-			for ( int j = 0; j < m_dimension; j++ ) {
-				for ( int i = j; i < m_dimension; j++ ) {
-					inTSP >> distMatrix[i][j];
-					distMatrix[j][i] = distMatrix[i][j];
+		// Preencher Matriz Distancia
+		for ( size_t j = 0; j < m_dimension; j++ ) {
+			for ( size_t i = j; i < m_dimension; j++ ) {
+				inTSP >> distMatrix[i][j];
+				distMatrix[j][i] = distMatrix[i][j];
 
-					if (i == j){
-						distMatrix[i][j] = INFINITE;
-					}
+				if (i == j){
+					distMatrix[i][j] = INFINITE;
 				}
 			}
+		}
 		}
 
 		//      std::cout << ewf << std::endl;
@@ -262,13 +259,13 @@ void Instance::read(){
 		}
 		// ler coordenadas
 		int tempCity;
-		for ( int i = 0; i < m_dimension; i++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
 			inTSP >> tempCity >> xCoord[i] >> yCoord[i];
 		}
 
 		// Calcular Matriz Distancia (Euclidiana)
-		for ( int i = 0; i < m_dimension; i++ ) {
-			for ( int j = 0; j < m_dimension; j++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
+			for ( size_t j = 0; j < m_dimension; j++ ) {
 				distMatrix[i][j] = floor ( CalcDistEuc ( xCoord.get(), yCoord.get(), i, j ) + 0.5 );
 
 				if (i == j){
@@ -301,13 +298,13 @@ void Instance::read(){
 		}
 		// ler coordenadas
 		int tempCity;
-		for ( int i = 0; i < m_dimension; i++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
 			inTSP >> tempCity >> xCoord[i] >> yCoord[i];
 		}
 
 		// Calcular Matriz Distancia (Euclidiana)
-		for ( int i = 0; i < m_dimension; i++ ) {
-			for ( int j = 0; j < m_dimension; j++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
+			for ( size_t j = 0; j < m_dimension; j++ ) {
 				distMatrix[i][j] = ceil ( CalcDistEuc ( xCoord.get(), yCoord.get(), i, j ) );
 
 				if (i == j){
@@ -326,7 +323,7 @@ void Instance::read(){
 		}
 		// ler coordenadas
 		int tempCity; //numero da cidade
-		for ( int i = 0; i < m_dimension; i++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
 			inTSP >> tempCity >> xCoord[i] >> yCoord[i];
 		}
 
@@ -336,8 +333,8 @@ void Instance::read(){
 		CalcLatLong ( xCoord.get(), yCoord.get(), m_dimension, latitude, longitude );
 
 		// Calcular Matriz Distancia
-		for ( int i = 0; i < m_dimension; i++ ) {
-			for ( int j = 0; j < m_dimension; j++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
+			for ( size_t j = 0; j < m_dimension; j++ ) {
 				distMatrix[i][j] = CalcDistGeo ( latitude, longitude, i, j );
 
 				if (i == j){
@@ -364,15 +361,15 @@ void Instance::read(){
 		int *tempX = new int [ m_dimension ];
 		int *tempY = new int [ m_dimension ];
 
-		for ( int i = 0; i < m_dimension; i++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
 			inTSP >> tempCity >> tempX[i] >> tempY[i];
 			xCoord[i]=tempX[i];
 			yCoord[i]=tempY[i];
 		}
 
 		// Calcular Matriz Distancia (Pesudo-Euclidiana)
-		for ( int i = 0; i < m_dimension; i++ ) {
-			for ( int j = 0; j < m_dimension; j++ ) {
+		for ( size_t i = 0; i < m_dimension; i++ ) {
+			for ( size_t j = 0; j < m_dimension; j++ ) {
 				distMatrix[i][j] = CalcDistAtt ( xCoord.get(), yCoord.get(), i, j );
 
 				if (i == j){
@@ -467,8 +464,8 @@ std::string Instance::get_name()
 }
 
 void Instance::printMatrixDist(){
-	for (int i  = 1; i <= get_dimension(); i++){
-		for (int j = 1; j <= get_dimension(); j++){
+	for (size_t i = 1; i <= get_dimension(); i++){
+		for (size_t j = 1; j <= get_dimension(); j++){
 			std::cout << get_distance(i,j) << " ";
 		}
 		std::cout << std::endl;
