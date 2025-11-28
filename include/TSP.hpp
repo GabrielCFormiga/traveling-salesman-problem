@@ -6,7 +6,7 @@
 #include <random>
 #include <cassert>
 
-#define EPS 0.001
+#define EPS 0.0001
 
 class TSP {
     private:

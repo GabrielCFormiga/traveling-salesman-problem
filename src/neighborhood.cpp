@@ -42,13 +42,13 @@ bool TSP::best_improvement_swap(Solution &solution) {
         }
     }
 
-    if (best_delta < 0) {
+    if (best_delta + EPS < 0) {
         std::swap(solution.sequence[best_i], solution.sequence[best_j]);
         solution.objective += best_delta;
         assert(solution.test_feasibility(m_instance));
     }
 
-    return best_delta < 0;
+    return best_delta + EPS < 0;
 }
 
 bool TSP::best_improvement_2_opt(Solution &solution) {
@@ -75,23 +75,21 @@ bool TSP::best_improvement_2_opt(Solution &solution) {
         }
     }
 
-    if (best_delta < 0) {
+    if (best_delta + EPS < 0) {
         reverse(solution.sequence.begin() + best_i, solution.sequence.begin() + best_j + 1);
         solution.objective += best_delta;
         assert(solution.test_feasibility(m_instance));
     }
 
-    return best_delta < 0;
+    return best_delta + EPS < 0;
 }
 
-// There is a bug here
-// Also i need to improve removing erase and insert with rotate
 bool TSP::best_improvement_or_opt(Solution &solution, size_t segment_size) {
     double best_delta = 0.0;
     size_t best_i = 0, best_j = 0;
 
     for (size_t i = 1; i < solution.sequence.size() - segment_size; ++i) {
-        for (size_t j = 1; j < solution.sequence.size() - 1; ++j) {
+        for (size_t j = 1; j < solution.sequence.size(); ++j) {
             if (j >= i && j <= i + segment_size) continue;
 
             double delta = 0;
@@ -114,16 +112,22 @@ bool TSP::best_improvement_or_opt(Solution &solution, size_t segment_size) {
         }
     }
 
-    if (best_delta < 0) {
+    if (best_delta + EPS < 0) {
         std::vector<size_t> segment(segment_size);
+
         for (size_t k = 0; k < segment_size; ++k) {
             segment[k] = solution.sequence[best_i + k];
         }
-        solution.sequence.erase(solution.sequence.begin() + best_i, solution.sequence.begin() + best_i + segment_size);
-        solution.sequence.insert(solution.sequence.begin() + best_j - (best_j > best_i ? segment_size : 0), segment.begin(), segment.end());
+
+        if (best_i < best_j) {
+            rotate(solution.sequence.begin() + best_i, solution.sequence.begin() + best_i + segment_size, solution.sequence.begin() + best_j);
+        } else {
+            rotate(solution.sequence.begin() + best_j, solution.sequence.begin() + best_i, solution.sequence.begin() + best_i + segment_size);
+        }
+
         solution.objective += best_delta;
         assert(solution.test_feasibility(m_instance));
     }
 
-    return best_delta < 0;
+    return best_delta + EPS < 0;
 }
