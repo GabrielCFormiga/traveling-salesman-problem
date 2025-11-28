@@ -1,11 +1,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <chrono>
 
 #include "TSP.hpp"
 #include "instance.hpp"
 #include "solution.hpp"
-
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -28,26 +28,41 @@ int main(int argc, char **argv) {
     size_t max_ils_iterations = (argc > 4) ? std::stoull(argv[4]) : (instance.get_dimension() >= 150 ? instance.get_dimension() / 2 : instance.get_dimension());
     double alpha = (argc > 5) ? std::stod(argv[5]) : 0.3;
 
-    // Display configuration
-    std::cout << std::left;
-    std::cout << std::string(40, '=') << '\n';
-    std::cout << "GILS-RVND Configuration:" << '\n';
-    std::cout << std::setw(20) << "Instance:" << instance.get_name() << '\n';
-    std::cout << std::setw(20) << "GRASP iterations:" << max_iterations << '\n';
-    std::cout << std::setw(20) << "ILS iterations:" << max_ils_iterations << '\n';
-    std::cout << std::setw(20) << "Alpha:" << alpha << '\n';
-    std::cout << std::string(40, '=') << '\n';
+    // // Display configuration
+    // std::cout << std::left;
+    // std::cout << std::string(40, '=') << '\n';
+    // std::cout << "GILS-RVND Configuration:" << '\n';
+    // std::cout << std::setw(20) << "Instance:" << instance.get_name() << '\n';
+    // std::cout << std::setw(20) << "GRASP iterations:" << max_iterations << '\n';
+    // std::cout << std::setw(20) << "ILS iterations:" << max_ils_iterations << '\n';
+    // std::cout << std::setw(20) << "Alpha:" << alpha << '\n';
+    // std::cout << std::string(40, '=') << '\n';
 
     TSP tsp(instance, seed);
 
-    Solution s = tsp.GILS_RVND(max_iterations, max_ils_iterations, alpha);
+    uint64_t start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    std::mt19937_64 rng(seed);
+    std::uniform_real_distribution<double> distrib(0.01, 1.0);
+    double avg_objective = 0.0;
 
-    std::cout << std::string(40, '=') << '\n';
-    std::cout << "Solution:" << '\n';   
-    std::cout << "Objective: " << s.objective << '\n';
-    std::cout << "Sequence: " << '\n';
-    s.print_sequence();
-    std::cout << std::string(40, '=') << '\n';
+    for (size_t i = 0; i < 10; i++) {
+        alpha = distrib(rng);
+        Solution s = tsp.GILS_RVND(max_iterations, max_ils_iterations, alpha);
+        avg_objective += s.objective;
+    }
+
+    uint64_t end = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    double avg_time = (end - start) / 10.0;
+    avg_objective /= 10.0;
+
+    std::cout << avg_objective << "," << avg_time / 1e9 << '\n';
+
+    // std::cout << std::string(40, '=') << '\n';
+    // std::cout << "Solution:" << '\n';   
+    // std::cout << "Objective: " << s.objective << '\n';
+    // std::cout << "Sequence: " << '\n';
+    // s.print_sequence();
+    // std::cout << std::string(40, '=') << '\n';
 
     return 0;
 }

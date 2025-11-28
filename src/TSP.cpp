@@ -8,5 +8,5 @@ TSP::TSP(Instance &instance, uint64_t seed) : m_instance(instance) {
     
     m_rng.seed(seed);
     
-    std::cout << "RNG seed: " << seed << std::endl;
+    // std::cout << "RNG seed: " << seed << std::endl;
 }
