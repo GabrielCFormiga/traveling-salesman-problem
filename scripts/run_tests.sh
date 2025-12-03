@@ -71,7 +71,7 @@ for instance in "$INSTANCES_DIR"/*.tsp; do
         
         # Executar o programa e capturar a saída
         # A saída do programa é no formato: avg_cost,avg_time_seconds
-        output=$("$EXECUTABLE" "$instance" 0 600)
+        output=$("$EXECUTABLE" "$instance" 0)
         
         # Adicionar o nome da instância na primeira coluna
         echo "$instance_name,$output" >> "$OUTPUT_FILE"
